@@ -1,5 +1,5 @@
 """
-The module comprises of the different operations to be performed on videoframes
+The module comprises of the videosuperresolution operation to be performed on videoframes
 """
 
 import cv2
@@ -135,7 +135,7 @@ def video_superresolution(filePath: str)-> str:
         size = (width, height)
     videoFile = cv2.VideoCapture(filePath)
     framesperSecond = videoFile.get(cv2.CAP_PROP_FPS)
-    newVideoFileName = 'finalvideoooempfour.mp4'
+    newVideoFileName = 'finalvideooO.mp4'
     outVideo = cv2.VideoWriter('finalvideoooempfour.mp4', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), framesperSecond, size)
     for file in sorted(glob.glob('/content/VRT/results/001_VRT_videosr_bi_REDS_6frames/000/*')):
         imgOne = cv2.imread(file)
