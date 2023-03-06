@@ -13,9 +13,9 @@ git clone https://github.com/ahadtar-1/VRTProject.git
 
 cd VRTProject
 
-docker pull ahadtar1/vrtflaskapp:latest
+docker pull ahadtar1/vrtflask_dockerapp:latest
 
-docker run -it ahadtar1/vrtflaskapp:latest
+docker run -it ahadtar1/vrtflask_dockerapp:latest
 ```
 
 ### Case 2 - Build Docker Image and Run Project
@@ -23,11 +23,11 @@ docker run -it ahadtar1/vrtflaskapp:latest
 The docker file is provided in the project which builds an image. The project will be up and running once the commands for building the image and container are entered.
 
 ```bash
-docker build -t ahadtar1/vrtflaskapp:latest . 
+docker build -t ahadtar1/vrtflask_dockerapp:latest . 
 ```
 
 ```bash
-docker run -it ahadtar1/vrtflaskapp:latest
+docker run -it ahadtar1/vrtflask_dockerapp:latest
 ```
 
 ### Case 3 - Run Project without Docker
