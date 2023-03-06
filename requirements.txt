@@ -13,3 +13,6 @@ torchvision==0.14.1
 timm==0.6.12
 einops==0.6.0
 flask==2.2.2
+flask-ngrok==0.0.25
+pyngrok==5.2.1
+config==0.5.1

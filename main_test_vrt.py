@@ -267,7 +267,7 @@ def prepare_model_dataset(dictOne):
 
 def test_video(lq, model, dictOne):
         '''test the video as a whole or as clips (divided temporally). '''
-        print('working')
+        #print('working')
         num_frame_testing = dictOne.get('tile')[0]
         if num_frame_testing:
             # test as multiple clips if out-of-memory
@@ -282,6 +282,7 @@ def test_video(lq, model, dictOne):
             W = torch.zeros(b, d, 1, 1, 1)
 
             for d_idx in d_idx_list:
+                print("Testing video")
                 lq_clip = lq[:, d_idx:d_idx+num_frame_testing, ...]
                 out_clip = test_clip(lq_clip, model, dictOne)
                 out_clip_mask = torch.ones((b, min(num_frame_testing, d), 1, 1, 1))
@@ -332,6 +333,7 @@ def test_clip(lq, model, dictOne):
 
         for h_idx in h_idx_list:
             for w_idx in w_idx_list:
+                print("Testing clip")
                 in_patch = lq[..., h_idx:h_idx+size_patch_testing, w_idx:w_idx+size_patch_testing]
                 out_patch = model(in_patch).detach().cpu()
 
@@ -354,6 +356,7 @@ def test_clip(lq, model, dictOne):
                 E[..., h_idx*sf:(h_idx+size_patch_testing)*sf, w_idx*sf:(w_idx+size_patch_testing)*sf].add_(out_patch)
                 W[..., h_idx*sf:(h_idx+size_patch_testing)*sf, w_idx*sf:(w_idx+size_patch_testing)*sf].add_(out_patch_mask)
         output = E.div_(W)
+        print("Clip tested")
 
     else:
         _, _, _, h_old, w_old = lq.size()
@@ -366,5 +369,5 @@ def test_clip(lq, model, dictOne):
         output = model(lq).detach().cpu()
 
         output = output[:, :, :, :h_old*sf, :w_old*sf]
-
+    print("Done")
     return output

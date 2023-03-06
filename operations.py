@@ -6,7 +6,6 @@ import cv2
 import glob
 import os
 import torch
-import requests
 import numpy as np
 import shutil
 from os import path as osp
@@ -14,7 +13,7 @@ from collections import OrderedDict
 from torch.utils.data import DataLoader
 from models.network_vrt import VRT as net
 from utils import utils_image as util
-from data.dataset_video_test import VideoRecurrentTestDataset, VideoTestVimeo90KDataset, SingleVideoRecurrentTestDataset, VFI_DAVIS, VFI_UCF101, VFI_Vid4
+from data.dataset_video_test import SingleVideoRecurrentTestDataset
 from main_test_vrt import prepare_model_dataset, test_video
 from PIL import Image
 
@@ -52,6 +51,23 @@ def save_frames(filePath: str)-> None:
     cv2.destroyAllWindows()
 
 
+def get_numerical_value(fileName: str)-> int:
+    """
+    The function extracts the numerical value from a filename which is used to sort the files.
+
+    Parameters
+    ----------
+    str
+
+    Returns
+    -------
+    int
+
+    """
+
+    return int(fileName.split('frame')[1].split('.png')[0])
+
+
 def video_superresolution(filePath: str)-> str:   
     """
     The function performs superresolution on a video
@@ -73,7 +89,7 @@ def video_superresolution(filePath: str)-> str:
                  'task': '001_VRT_videosr_bi_REDS_6frames', 'tile': [40,64,64], 'tile_overlap': [2,20,20],
                  'window_size': [6,8,8]}
 
-    device = torch.device('cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = prepare_model_dataset(modelDict)
     model.eval()
     model = model.to(device)
@@ -91,14 +107,13 @@ def video_superresolution(filePath: str)-> str:
     test_results['ssim_y'] = []
 
     len(test_loader) != 0
-    print(len(test_loader))
 
     imagenames = glob.glob('testsets/uploaded/000/*')
     print(type(imagenames))
     for i in imagenames:
         Image.open(i).resize((320,180)).save(i)
 
-    print('s')
+    print('Images Resized')
     for idx, batch in enumerate(test_loader):
         print('in')
         lq = batch['L'].to(device)
